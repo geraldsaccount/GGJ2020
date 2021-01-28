@@ -21,6 +21,7 @@ public class Player_Movement : MonoBehaviour
     public LayerMask GroundMask;
 
     public CharacterController Controller;
+    [SerializeField] private Drunk drunk;
 
     void Update()
     {
@@ -31,8 +32,8 @@ public class Player_Movement : MonoBehaviour
             Velocity.y = -2f;
         }
 
-        XAxis = Input.GetAxis("Horizontal");
-        ZAxis = Input.GetAxis("Vertical");
+        XAxis = Input.GetAxis("Horizontal") + drunk.GetDrunkMove().x;
+        ZAxis = Input.GetAxis("Vertical") + drunk.GetDrunkMove().y;
 
         Move = transform.right * XAxis + transform.forward * ZAxis;
         Controller.Move(Move * Speed * Time.deltaTime);

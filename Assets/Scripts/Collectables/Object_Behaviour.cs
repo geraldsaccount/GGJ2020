@@ -25,16 +25,6 @@ public class Object_Behaviour : MonoBehaviour
     void Update()
     {
         ColorChange();
-
-        if (PickingUpItems.IsPickedUp)
-        {
-            ActivateImage();
-        }
-
-        if (Input.GetButtonDown("Close"))
-        {
-            DeactivateImage();
-        }
     }
 
     public void ColorChange()
@@ -53,8 +43,8 @@ public class Object_Behaviour : MonoBehaviour
     {
         CanvasImage.sprite = Hint;
         Panel.SetActive(true);
-        Time.timeScale = 0;
         PickingUpItems.IsPickedUp = false;
+        Time.timeScale = 0;
     }
 
     public void DeactivateImage()

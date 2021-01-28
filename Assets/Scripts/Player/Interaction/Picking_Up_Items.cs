@@ -14,13 +14,23 @@ public class Picking_Up_Items : MonoBehaviour
     public Collider[] StoredColliders;
     public Transform[] ColliderTransforms;
     public GameObject StoredObject;
+    public Object_Behaviour ObjectBehaviour;
     public bool IsPickedUp;
+
+    public Transform ClosestTransform;
+
+    private void Start()
+    {
+
+    }
 
     void Update()
     {
+        
+
         if (ObjectsInRange() > 0)
         {
-            StoredObject = ClosestObject(Transforms()).gameObject; 
+            StoredObject = ClosestObject(Transforms()).gameObject;
         }
         else
         {
@@ -30,6 +40,11 @@ public class Picking_Up_Items : MonoBehaviour
         if (ClosestObject(Transforms()) != null && Input.GetButtonDown("Interact"))
         {
             PickUpObject();
+        }
+
+        if (Input.GetButtonDown("Close"))
+        {
+            ObjectBehaviour.DeactivateImage();
         }
     }
 
@@ -67,7 +82,14 @@ public class Picking_Up_Items : MonoBehaviour
                 minDist = dist;
             }
         }
-        Debug.Log(closestTransform.name);
+
+        ClosestTransform = closestTransform;
+
+        if (ClosestTransform != null)
+        {
+            ObjectBehaviour = ClosestTransform.GetComponent<Object_Behaviour>(); 
+        }
+
         return closestTransform;
     }
 
@@ -75,9 +97,9 @@ public class Picking_Up_Items : MonoBehaviour
     {
         IsPickedUp = true;
         StoredObject.SetActive(false);
+        ObjectBehaviour.ActivateImage();
 
         Debug.Log(StoredObject.name + " was picked up");
-
     }
 
     public void OnDrawGizmos()
@@ -85,5 +107,4 @@ public class Picking_Up_Items : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(InteracterPosition.position, InteractRadius);
     }
-
 }

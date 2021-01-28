@@ -1200,7 +1200,9 @@ MonoBehaviour:
   StoredColliders: []
   ColliderTransforms: []
   StoredObject: {fileID: 0}
+  ObjectBehaviour: {fileID: 0}
   IsPickedUp: 0
+  ClosestTransform: {fileID: 0}
 --- !u!1 &772626365
 GameObject:
   m_ObjectHideFlags: 0

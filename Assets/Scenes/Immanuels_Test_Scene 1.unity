@@ -325,11 +325,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5556a795139de439efecd9ef8aa908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpTime: 60
-  baseDrunkMultiplicator: 1
+  lerpTime: 180
+  baseDrunkMultiplicator: 2
   postProcessVolume: {fileID: 2018216381}
   material: {fileID: 2100000, guid: 0caec44ab07062f40a8ac903595611ac, type: 2}
-  focusSpeed: 1.5
+  focusCooldown: 15
+  focusTime: 3.5
+  focusSpeed: 1
+  minMoveAmplitude: 0.125
+  maxMoveAmplitude: 0.25
 --- !u!1 &293633098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,6 +1196,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   Controller: {fileID: 677838621}
+  drunk: {fileID: 250508136}
 --- !u!1 &682648584
 GameObject:
   m_ObjectHideFlags: 0

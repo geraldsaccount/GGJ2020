@@ -252,7 +252,7 @@ MonoBehaviour:
   MouseX: 0
   MouseY: 0
   MouseSensitivity: 200
-  playerBody: {fileID: 677838624}
+  PlayerBody: {fileID: 677838624}
 --- !u!114 &250508135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,21 +1182,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d637ec801bd314c90ad25b1729d81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XAxis: 0
-  ZAxis: 0
   Speed: 12
   JumpHeight: 3
   Gravity: -9.81
-  IsGrounded: 0
   Move: {x: 0, y: 0, z: 0}
   Velocity: {x: 0, y: 0, z: 0}
-  GroundCheck: {fileID: 157925800}
+  GroundCheckPosition: {fileID: 157925800}
   GroundDistance: 0.4
   GroundMask:
     serializedVersion: 2
     m_Bits: 256
   Controller: {fileID: 677838621}
-  drunk: {fileID: 250508136}
 --- !u!1 &682648584
 GameObject:
   m_ObjectHideFlags: 0

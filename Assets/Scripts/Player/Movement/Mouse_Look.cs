@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Mouse_Look : MonoBehaviour
 {
-
+    [Header ("Input")]
     public float MouseX;
     public float MouseY;
-    public float MouseSensitivity = 100f;
-    private float xRotation = 0f;
 
-    public Transform playerBody;
+    [Header ("Values")]
+    public float MouseSensitivity;
+
+    private float xRotation;
+
+    public Transform PlayerBody;
 
     void Start()
     {
@@ -27,6 +30,6 @@ public class Mouse_Look : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
-        playerBody.Rotate(Vector3.up * MouseX);
+        PlayerBody.Rotate(Vector3.up * MouseX);
     }
 }

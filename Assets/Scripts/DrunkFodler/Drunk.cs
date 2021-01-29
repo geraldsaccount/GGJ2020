@@ -27,6 +27,8 @@ public class Drunk : MonoBehaviour {
 	
 	[SerializeField] private float minMoveAmplitude;
 	[SerializeField] private float maxMoveAmplitude;
+	[SerializeField] private PauseMenu pause;
+	[SerializeField] private float pauseBuffer;
 	
 	private void Start() {
 		postProcessVolume.profile.TryGetSettings(out distortion);
@@ -40,16 +42,16 @@ public class Drunk : MonoBehaviour {
 			drunkMultiplicator = Lerp(lastDrunkMultiplicator, 0, timeStartedLerping, lerpTime);
 			timeLerped += Time.deltaTime;
 		}
-
-		if (Input.GetKeyDown(KeyCode.Mouse0) && canFocus) {
-			PauseSobering();
-		}
+		
 
 		if (Input.GetKeyUp(KeyCode.Mouse0) && isFocusing) {
 			EndFocus();
 		}
 
-		if (Input.GetKey(KeyCode.Mouse0) && canFocus) {
+		if (Input.GetKey(KeyCode.Mouse0) && canFocus && !pause.paused) {
+			if (!isFocusing) {
+				PauseSobering();
+			}
 			isFocusing = true;
 			drunkMultiplicator = Lerp(lastDrunkMultiplicator, 0, timeStartedLerping, focusSpeed);
 			distortion.intensity.value = Lerp(0, 50, timeStartedLerping, focusSpeed);

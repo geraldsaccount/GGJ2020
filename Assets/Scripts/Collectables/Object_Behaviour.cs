@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class Object_Behaviour : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class Object_Behaviour : MonoBehaviour
     public Picking_Up_Items PickingUpItems;
 
     [Header("Hints")]
-    public Sprite Hint;
-    public Image CanvasImage;
+    public string Hint;
+    public TMP_Text CanvasText;
     public GameObject Panel;
 
     private void Start()
@@ -31,7 +32,7 @@ public class Object_Behaviour : MonoBehaviour
     {
         if (PickingUpItems.StoredObject == gameObject)
         {
-            Renderer.material.color = Color.green;
+            Renderer.material.color = Color.grey;
         }
         else
         {
@@ -41,7 +42,7 @@ public class Object_Behaviour : MonoBehaviour
 
     public void ActivateImage()
     {
-        CanvasImage.sprite = Hint;
+        CanvasText.text = Hint;
         Panel.SetActive(true);
         PickingUpItems.IsPickedUp = false;
         Time.timeScale = 0;

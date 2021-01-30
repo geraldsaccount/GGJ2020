@@ -98,7 +98,6 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	private IEnumerator LerpLinesOut() {
-		print("i'm in");
 		while (lines[lines.Length - 1].transform.position != startPos.position && !paused) {
 			for (int i = 0; i < lines.Length; i++) {
 				lines[i].transform.position =

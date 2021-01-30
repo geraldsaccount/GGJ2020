@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
+
+    [SerializeField] private Drunk Drunk;
+
     [Header ("Input")]
     private float xAxis;
     private float zAxis;
 
     [Header ("Values")]
     public float Speed;
-    public float JumpHeight;
     public float Gravity;
 
     [Header ("Vectors")]
@@ -32,16 +34,11 @@ public class Player_Movement : MonoBehaviour
             Velocity.y = -2f;
         }
 
-        xAxis = Input.GetAxis("Horizontal");
-        zAxis = Input.GetAxis("Vertical");
+        xAxis = Input.GetAxis("Horizontal") + Drunk.GetDrunkMove().x;
+        zAxis = Input.GetAxis("Vertical") + Drunk.GetDrunkMove().y;
 
         Move = transform.right * xAxis + transform.forward * zAxis;
         Controller.Move(Move * Speed * Time.deltaTime);
-
-        if (Input.GetButtonDown("Jump") && GroundCheck())
-        {
-            Velocity.y = Mathf.Sqrt(JumpHeight * -2 * Gravity);
-        }
 
         Velocity.y += Gravity * Time.deltaTime;
         Controller.Move(Velocity * Time.deltaTime);

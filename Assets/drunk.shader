@@ -27,7 +27,7 @@ Shader "Drunk"
 			float4 pixel_shader (float4 vertex:SV_POSITION):COLOR
 			{
 				vector <float,2> uv = vertex.xy/_ScreenParams.xy;
-				uv.y = 1.0-uv.y;
+				//uv.y = 1.0-uv.y;
 				uv.x+=cos(uv.y*2.0+_Time.g)*0.05 * _DrunkMultiplicator;
 				uv.y+=sin(uv.x*2.0+_Time.g)*0.05 * _DrunkMultiplicator;
 				float offset = sin(_Time.g *0.5) * 0.01 * _DrunkMultiplicator;    

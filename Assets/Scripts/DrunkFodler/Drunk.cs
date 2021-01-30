@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 using UnityEngine.Rendering.PostProcessing;
 
 public class Drunk : MonoBehaviour {
@@ -24,7 +25,9 @@ public class Drunk : MonoBehaviour {
 	private float cooldownCounter;
 	private float focusMultiplicator;
 	private float distortionValue;
-	
+	private float alphaValue;
+
+	[SerializeField] public TextMeshProUGUI[] hints;
 	[SerializeField] private float minMoveAmplitude;
 	[SerializeField] private float maxMoveAmplitude;
 	[SerializeField] private PauseMenu pause;
@@ -56,6 +59,10 @@ public class Drunk : MonoBehaviour {
 			drunkMultiplicator = Lerp(lastDrunkMultiplicator, 0, timeStartedLerping, focusSpeed);
 			distortion.intensity.value = Lerp(0, 50, timeStartedLerping, focusSpeed);
 
+			foreach (TextMeshProUGUI hint in hints) {
+				hint.alpha = Lerp(0, 255, timeStartedLerping, focusSpeed);
+			}
+			
 			focusCounter += Time.deltaTime;
 		}
 
@@ -70,6 +77,7 @@ public class Drunk : MonoBehaviour {
 		timeStartedLerping = Time.time;
 		focusMultiplicator = drunkMultiplicator;
 		distortionValue = distortion.intensity.value;
+		alphaValue = hints[0].alpha;
 		StartCoroutine(ResetMultiplicator());
 	}
 
@@ -77,6 +85,9 @@ public class Drunk : MonoBehaviour {
 		while (drunkMultiplicator < lastDrunkMultiplicator) {
 			drunkMultiplicator = Lerp(focusMultiplicator, lastDrunkMultiplicator, timeStartedLerping, focusSpeed);
 			distortion.intensity.value = Lerp(distortionValue, 0, timeStartedLerping, focusSpeed);
+			foreach (TextMeshProUGUI hint in hints) {
+				hint.alpha = Lerp(alphaValue, 0, timeStartedLerping, focusSpeed);
+			}
 			yield return new WaitForEndOfFrame();
 		}
 

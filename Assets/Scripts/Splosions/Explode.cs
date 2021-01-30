@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Explode : MonoBehaviour {
 	[SerializeField] private float delay;
@@ -9,26 +11,29 @@ public class Explode : MonoBehaviour {
 	[SerializeField] private GameObject explosionEffect;
 	[SerializeField] private GameObject fireEffect;
 	[SerializeField] private bool explodeOnStart;
-	
-	private void Start() {
-		if (explodeOnStart) {
-			StartCoroutine(Delay());
-			
-		}
+	private PauseMenu PauseMenu;
+
+	private void Awake() {
+		PauseMenu = FindObjectOfType<PauseMenu>();
 	}
 
-	public void StartExploding() {
-		StartCoroutine(Delay());
+	public void StartExploding(bool wasDriving) {
+		StartCoroutine(Delay(wasDriving));
 	}
 	
 	// ReSharper disable Unity.PerformanceAnalysis
-	public IEnumerator Delay() {
+	public IEnumerator Delay(bool wasDriving) {
 		GameObject fire = Instantiate(fireEffect, transform.position, transform.rotation);
 		float randDelay = Random.Range(0, delay);
 		
 		yield return new WaitForSeconds(randDelay);
 		Destroy(fire);
 		Explosion();
+		
+		
+		yield return new WaitForSeconds(1);
+		PauseMenu.Pause(true);
+		Destroy(gameObject);
 	}
 	
 	public void Explosion() {
@@ -46,10 +51,15 @@ public class Explode : MonoBehaviour {
 		foreach (Collider col in collidersToExplode) {
 			Explode explode = col.GetComponent<Explode>();
 			if (explode != null && explode != this) {
-				explode.StartExploding();
+				StartCoroutine(AfterExplosion(explode));
 			}
 		}
 		
-		Destroy(gameObject);
+		
+	}
+
+	private IEnumerator AfterExplosion(Explode explode) {
+		yield return new WaitForSeconds(2);
+		explode.Explosion();
 	}
 }

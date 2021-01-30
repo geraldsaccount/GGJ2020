@@ -9,6 +9,7 @@ public class Picking_Up_Items : MonoBehaviour
     public Transform InteracterPosition;
     public float InteractRadius;
     public LayerMask ObjectLayer;
+    public LayerMask CarLayer;
 
     [Header("Object_Storage")]
     public Collider[] StoredColliders;
@@ -18,16 +19,9 @@ public class Picking_Up_Items : MonoBehaviour
     public bool IsPickedUp;
 
     public Transform ClosestTransform;
-
-    private void Start()
-    {
-
-    }
-
+    
     void Update()
     {
-        
-
         if (ObjectsInRange() > 0)
         {
             StoredObject = ClosestObject(Transforms()).gameObject;
@@ -41,6 +35,9 @@ public class Picking_Up_Items : MonoBehaviour
         {
             PickUpObject();
         }
+        else if (NearestCar() != null && Input.GetButtonDown("Interact")) {
+            NearestCar().OpenCar();
+        }
 
         if (Input.GetButtonDown("Close"))
         {
@@ -53,6 +50,29 @@ public class Picking_Up_Items : MonoBehaviour
         return StoredColliders.Length;
     }
 
+    public CarOpen NearestCar() {
+        Collider[] nearCars = Physics.OverlapSphere(InteracterPosition.position, InteractRadius, CarLayer);
+
+        Collider nearestCar = null;
+        int counted = 0;
+        foreach (Collider car in nearCars) {
+            if (nearestCar == null) {
+                nearestCar = car;
+            }
+            else {
+                float nearestCarDistance = Vector3.Distance(InteracterPosition.position, nearestCar.transform.position);
+                float nextCarDistance = Vector3.Distance(InteracterPosition.position, nearCars[counted].transform.position);
+                if (nearestCarDistance > nextCarDistance) {
+                    nearestCar = nearCars[counted];
+                }
+            }
+
+            counted++;
+        }
+
+        return nearestCar.GetComponent<CarOpen>();
+    }
+    
     public Transform[] Transforms()
     {
         StoredColliders = Physics.OverlapSphere(InteracterPosition.position, InteractRadius, ObjectLayer);

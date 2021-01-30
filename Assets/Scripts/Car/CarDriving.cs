@@ -6,11 +6,15 @@ using UnityEngine;
 public class CarDriving : MonoBehaviour {
 	[SerializeField] private float MotorForce, SteerForce, BrakeForce;
 	[SerializeField] private WheelCollider frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel;
-	[SerializeField] private Drunk drunk;
+	private Drunk drunk;
+
+	private void Awake() {
+		drunk = FindObjectOfType<Drunk>();
+	}
 
 	private void Update() {
-		float vertical = Input.GetAxis("Vertical") * MotorForce ;
-		float horizontal = (Input.GetAxis("Horizontal") ) * SteerForce;
+		float vertical = Input.GetAxis("Vertical") * MotorForce;
+		float horizontal = (Input.GetAxis("Horizontal") ) * SteerForce + drunk.GetDrunkMove().x;
 
 		rearLeftWheel.motorTorque = vertical;
 		rearRightWheel.motorTorque = vertical;
@@ -35,6 +39,12 @@ public class CarDriving : MonoBehaviour {
 		else {
 			rearLeftWheel.brakeTorque = 0;
 			rearRightWheel.brakeTorque = 0;
+		}
+	}
+
+	private void OnCollisionEnter(Collision other) {
+		if (other.gameObject.CompareTag("Car")) {
+			gameObject.GetComponent<Explode>().StartExploding(true);
 		}
 	}
 }

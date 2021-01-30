@@ -10,7 +10,9 @@ public class PauseMenu : MonoBehaviour {
 
 	[SerializeField] private float[] lerpSpeeds;
 	[SerializeField] private float lineAmplitude;
-
+	[SerializeField] private GameObject resumeButton;
+	[SerializeField] private GameObject retryButton;
+	
 	private Vector3[] lastPos;
 	private float timeStartedPaused;
 	public bool paused;
@@ -23,16 +25,25 @@ public class PauseMenu : MonoBehaviour {
 
 	private void Update() {
 		if (Input.GetKeyDown(KeyCode.Escape) && !paused) {
-			Pause();
+			Pause(false);
 		}
 		else if (Input.GetKeyDown(KeyCode.Escape) && paused) {
 			Unpause();
 		}
 	}
 
-	private void Pause() {
+	public void Pause(bool explosion) {
 		Cursor.lockState = CursorLockMode.Confined;
 
+		if (!explosion) {
+			resumeButton.SetActive(true);
+			retryButton.SetActive(false);
+		}
+		else {
+			resumeButton.SetActive(false);
+			retryButton.SetActive(true);
+		}
+		
 		paused = true;
 		for (int i = 0; i < lines.Length; i++) {
 			lastPos[i] = lines[i].transform.position;
@@ -66,6 +77,11 @@ public class PauseMenu : MonoBehaviour {
 	
 	public void QuitGame() {
 		Application.Quit();
+	}
+
+	public void Retry() {
+		Time.timeScale = 1;
+		GameManager.instance.RestartLevel();
 	}
 	
 	private IEnumerator LerpLines() {

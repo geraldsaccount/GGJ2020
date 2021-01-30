@@ -9,16 +9,17 @@ public class License_Plate_Randomizer : MonoBehaviour
     private int LPSecondNumber;
     private string LPCode;
     public string LicensePlate;
-    public TMP_Text LicensePlateText;
+    public TMP_Text LicensePlateTextFront;
+    public TMP_Text LicensePlateTextBack;
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Submit"))
-        {
-            CreateLicensePlate();
-            Debug.Log(LicensePlate);
-        }
-    }
+    // private void Update()
+    // {
+    //     if (Input.GetButtonDown("Submit"))
+    //     {
+    //         CreateLicensePlate();
+    //         Debug.Log(LicensePlate);
+    //     }
+    // }
 
     public void CreateLicensePlate()
     {
@@ -26,7 +27,8 @@ public class License_Plate_Randomizer : MonoBehaviour
         LPSecondNumber = Random.Range(10, 100);
         CreateRandomLPCode();
         LicensePlate = LPFirstNumber.ToString() + LPCode + LPSecondNumber.ToString();
-        LicensePlateText.text = LicensePlate;
+        LicensePlateTextFront.text = LicensePlate;
+        LicensePlateTextBack.text = LicensePlate;
     }
 
     public void CreateRandomLPCode()
